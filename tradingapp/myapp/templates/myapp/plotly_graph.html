@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Plotly Graph</title>
 </head>
 <body>
+    <h1>Select an Option</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- This renders the form fields as HTML <p> elements -->
+        <button type="submit">Submit</button>
+    </form>
+    <!-- Render the table -->
+    {% load django_tables2 %}
+    {% render_table table %}
     <h1>{{header_graph}}</h1>
     <!-- Render the Plotly graph here -->
     <div>
-        {{ graph_html|safe }}
+        {{ graph_html1|safe }}
+    </div>
+    <div>
+        {{ graph_html2|safe }}
+    </div>
+    <div>
+        {{ graph_html3|safe }}
     </div>
 </body>
 </html>
