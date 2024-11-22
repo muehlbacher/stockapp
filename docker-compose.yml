@@ -1,0 +1,19 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: trading-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: market # Optional: create a database at startup
+      MYSQL_USER: admin  # Optional: create a user
+      MYSQL_PASSWORD: admin # Optional: password for the user
+    volumes:
+      - .mysql-data:/var/lib/mysql
+      - ./custom-config:/etc/mysql/conf.d # Optional: for custom configs
+    ports:
+      - "3306:3306"
+    restart: always # Ensures the container restarts if it crashes
+
+volumes:
+  mysql-data:
+    driver: local
