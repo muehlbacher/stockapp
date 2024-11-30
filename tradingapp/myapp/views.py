@@ -2,7 +2,7 @@ import plotly.express as px
 from django.shortcuts import render
 import pickle
 import pandas as pd
-from .indicators import WarrenBuffets
+#from .indicators import WarrenBuffets
 from .forms import MyForm
 from .models import Company
 from .tables import CompanyTable

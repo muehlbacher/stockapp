@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'tradingapp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mysql.connector.django',  # MySQL backend
+        'NAME': 'market',          # Name of the database
+        'USER': 'root',               # MySQL user
+        'PASSWORD': 'root',           # Password for the user
+        'HOST': 'localhost',                   # Usually localhost or IP address
+        'PORT': '3306',                        # Default MySQL port is 3306
     }
 }
 
