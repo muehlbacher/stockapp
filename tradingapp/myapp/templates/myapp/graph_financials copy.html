@@ -27,16 +27,6 @@
         tbody tr:hover {
             background-color: #f1f1f1; /* Highlight row on hover */
         }
-
-        .valuation-red {
-            background-color: #ffcccc; /* light red */
-        }
-        .valuation-medium {
-            background-color: #ffeb99; /* light yellow */
-        }
-        .valuation-green {
-            background-color: #c6efce; /* light green */
-        }
     </style>
 </head>
 <body>
@@ -54,20 +44,20 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th scope="col"></th>
-                    {% for year in unique_years %}
-                    <th scope="col">{{ year }}</th>
+                    <th scope="col">Metric</th>
+                    {% for year in avail_years %}
+                        <th scope="col">{{ year }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
-                {% for metric, data in table_data.items %}
-                <tr>
-                    <td scope="row">{{ metric }}</td>
-                    {% for year, v in data.items %}
-                    <td scope="row" class="{{ v.class }}">{{ v.value }}</td>
-                    {% endfor %}
-                </tr>
+                {% for metric, values in table_data.items %}
+                    <tr>
+                        <th scope="row">{{ metric }}</th>
+                        {% for year, value in values.items %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

@@ -33,12 +33,10 @@ def plotly_graph(request):
         ticker=selected_option
     df =fetch_data_from_db(ticker)
     print(df)
-    table_data, unique_years = prepare_table_data(ticker)
-
+    table_data, avail_years = prepare_table_data(ticker)
 
     if isinstance(table_data, str):  # Check if it's an error message
         return render(request, 'error.html', {'error_message': table_data})
-    
     metrics = fetch_metrics_wb()
     graphs = []
     for metric in metrics:
@@ -47,8 +45,8 @@ def plotly_graph(request):
         graphs.append(fig.to_html(full_html=False))
 
     return render(request, 'myapp/graph_financials.html', {'table_data': table_data, 
-                                                           'unique_years': unique_years,
                                                            'company_name': ticker, 
+                                                           'avail_years': avail_years,
                                                            'form': form,
                                                            'graphs': graphs,})
 
@@ -109,34 +107,26 @@ def prepare_table_data(ticker):
                 'Year': entry.TimePeriodID.Year,
                 'Metric': entry.MetricID.MetricName,
                 'Value': entry.Value,
-                'Valuation': entry.Valuation
             })
-    
+
         # Create a DataFrame
         df = pd.DataFrame(data)
-        print("Dataframe------")
         print(df)
-
-        table_valuation = {}
-        grouped = df.groupby("Metric")
-        #data_valuation = []
-        print(grouped)
-        metric_data = {}
-        for metric, group in grouped:
-            metric_data[metric] = {}
-            for _, row in group.iterrows():
-                year = str(row["Year"])
-                metric_data[metric][year] = {
-                    "value": row["Value"],
-                    "class": f"valuation-{row['Valuation']}"  # e.g., "valuation-red"
-                }
-            #data_valuation.append(metric_data)
-        
-        #print(data_valuation)
-        print(metric_data)
         unique_years = df['Year'].unique()
 
-        return metric_data, unique_years
+
+        # Pivot the DataFrame to have metrics as rows and years as columns
+        pivot_table = df.pivot_table(
+            index='Metric',  # Rows: Metrics
+            columns='Year',  # Columns: Years
+            values='Value',  # Values: Financial Data
+            aggfunc='sum'    # Aggregate function (sum in case of duplicates)
+        ).fillna(0)  # Replace NaN with 0
+
+        # Convert to dictionary for Django template (now years are columns)
+        table_data = pivot_table.to_dict(orient='index')
+        
+        return table_data, unique_years
 
     except Company.DoesNotExist:
         return f"Company with name '{ticker}' does not exist."
