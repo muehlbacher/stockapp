@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Financial Data for {{ company_name }}</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 8px;
+
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Financial Data for {{ company_name }}</h1>
+    
+    {% if table_data %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    {% for year in avail_years %}
+                        <th>{{ year }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for metric, values in table_data.items %}
+                    <tr>
+                        <td>{{ metric }}</td>
+                        {% for year, value in values.items %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No financial data available for this company.</p>
+    {% endif %}
+</body>
+</html>

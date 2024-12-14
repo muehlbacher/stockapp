@@ -1,5 +1,5 @@
 import django_tables2 as tables
-from .models import Company
+from .models.company_model import Company
 
 class CompanyTable(tables.Table):
     #when used with pandas df -> fields have to be defined here
