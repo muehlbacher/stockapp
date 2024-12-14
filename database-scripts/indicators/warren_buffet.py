@@ -67,5 +67,6 @@ class WarrenBuffets:
         symbol = self.sgaRatio(symbol)
         symbol = self.randdRatio(symbol)
         symbol = self.deprecationRatio(symbol)
+        symbol = self.interestExpenseRatio(symbol)
         symbol = self.netEarningsRatio(symbol)
         return symbol
