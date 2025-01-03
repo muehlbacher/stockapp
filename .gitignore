@@ -3,3 +3,6 @@
 .mysql-data
 custom-config
 .mypy_cache
+
+FinanceETL/.env
+

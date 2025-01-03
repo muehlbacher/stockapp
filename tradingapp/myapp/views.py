@@ -1,5 +1,5 @@
 import plotly.express as px
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import pickle
 import pandas as pd
 #from .indicators import WarrenBuffets
@@ -8,6 +8,9 @@ from .models.company_model import Company
 from .models.financialdata_model import FinancialData
 from .models.metric_model import Metric
 from django_tables2 import RequestConfig
+from .forms import SignupForm
+from django.contrib.auth import login
+from django.contrib import messages
 
 
 
@@ -195,4 +198,17 @@ def fetch_metrics_wb():
     return Metric.objects.filter(MetricType="wb").all()
 
 
+def home(request):
+    return render(request, 'home.html')
 
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log the user in after signup
+            messages.success(request, 'Signup successful!')
+            return redirect('plotly_graph')  # Redirect to a home page or dashboard
+    else:
+        form = SignupForm()
+    return render(request, 'myapp/signup.html', {'form': form})
