@@ -1,90 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Plotly Graph</title>
-    <style>
-        /* Custom Styles */
-        table {
-            font-size: 14px; /* Adjust text size */
-        }
-        thead th {
-            background-color: #f4f4f4; /* Light grey background for headers */
-            font-weight: bold;
-        }
-        th, td {
-            text-align: center; /* Center align by default */
-        }
-        td:first-child, th:first-child {
-            text-align: left; /* Left-align the first column */
-            font-weight: bold; /* Emphasize the first column */
-        }
-        tbody tr:nth-child(even) {
-            background-color: #fafafa; /* Alternating row colors */
-        }
-        tbody tr:hover {
-            background-color: #f1f1f1; /* Highlight row on hover */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <title>Financial Dashboard</title>
+  <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+      }
+      .navbar {
+    background-color: #1f1f1f;
+    padding: 0.8rem 1rem;
+  }
+  .navbar-brand {
+    font-weight: bold;
+    color: #ffffff !important;
+  }
+  .navbar-brand:hover {
+    color: #e0e0e0 !important;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    color: #e0e0e0;
+  }
+  .navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  .form-inline .input-group .form-control {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+  }
+  .form-inline .input-group .form-control::placeholder {
+    color: #aaaaaa;
+  }
+  .form-inline .input-group .btn {
+    background-color: #0d6efd;
+    color: #ffffff;
+    border: none;
+  }
+  .form-inline .input-group .btn:hover {
+    background-color: #0056b3;
+  }
 
-        .valuation-red {
-            background-color: #ffcccc; /* light red */
-        }
-        .valuation-medium {
-            background-color: #ffeb99; /* light yellow */
-        }
-        .valuation-green {
-            background-color: #c6efce; /* light green */
-        }
-        .valuation-very_good{
+      .section-header {
+          margin: 20px 0;
+          font-weight: bold;
+          color: #333333;
+      }
+      .financial-metrics {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .financial-metrics h5 {
+          font-weight: bold;
+      }
+      .metric-value {
+          font-size: 1.2rem;
+          font-weight: bold;
+      }
+      .metric-positive {
+          color: #28a745;
+      }
+      .metric-negative {
+          color: #dc3545;
+      }
+      .graph-container {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      footer {
+          background-color: #1b1f23;
+          color: #ffffff;
+          padding: 10px 0;
+          text-align: center;
+      }
+      #search-preview {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    background-color: #333333;
+    color: #ffffff;
+    position: absolute;
+    top: 100%; /* Position below the input */
+    z-index: 1050; /* Ensure it's above other elements */
+    display: none; /* Hidden by default */
+  }
+  #search-preview a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 8px 12px;
+    display: block;
+  }
+  #search-preview a:hover {
+    background-color: #555555;
+  }
 
-            background-color: #c6efce; /* light green */
-        }
-    </style>
+  .search-preview-name {
+    font-size: 1rem;
+  }
+  .search-preview-ticker {
+    font-size: 0.8rem;
+    color: grey;
+  }
+  .search-preview-list {
+    display: flex;
+    margin: 0 12px;
+    padding: 8px 2px;
+    justify-content: space-between;
+  }
+
+  </style>
 </head>
 <body>
-    <h1>Select an Option</h1>
-    <form method="post">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">Moulin Stocks</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+    <!-- Search Bar in Navbar -->
+    <form class="form-inline my-2 my-lg-0 position-relative" method="post" autocomplete="off">
         {% csrf_token %}
-        {{ form.as_p }}  <!-- This renders the form fields as HTML <p> elements -->
-        <button type="submit">Submit</button>
-    </form>
-    <h1>Financial Data for {{ company_name }}</h1>
-    
-    {% if table_data %}
-    <div class="container my-4">
-        <h2 class="text-center">Financial Statement Table</h2>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    {% for year in unique_years %}
-                    <th scope="col">{{ year }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for metric, data in table_data.items %}
-                <tr>
-                    <td scope="row">{{ metric }}</td>
-                    {% for year, v in data.items %}
-                    <td scope="row" class="{{ v.class }}">{{ v.value }}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% else %}
-        <p>No financial data available for this company.</p>
-    {% endif %}
-    {% for graph in graphs %}
-    <h1>{{header_graph}}</h1>
-    <!-- Render the Plotly graph here -->
-        <div>
-            {{ graph|safe }}
+        <div class="input-group">
+          <input 
+            type="text" 
+            class="form-control" 
+            id="search" 
+            name="search" 
+            placeholder="Search for a company" 
+            aria-label="Search"
+            oninput="fetchSearchResults(this.value)"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </div>
         </div>
-    {% endfor %}
+        <ul class="list-group">
+        <div id="search-preview" class="dropdown-menu w-100"></div>
+        </ul>
+      </form>
+    </div>
+  </nav>
+
+
+  <!-- Main Content -->
+  <div class="container my-5">
+      <!-- Header -->
+      <div class="text-center mb-4">
+          <h1 class="section-header">Financial Dashboard for {{ company_name }}</h1>
+      </div>
+
+      <!-- Financial Metrics -->
+      <div class="row mb-4">
+          <div class="col-md-4">
+              <div class="financial-metrics text-center">
+                  <h5>Market Cap</h5>
+                  <p class="metric-value metric-positive">$1.2T</p>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="financial-metrics text-center">
+                  <h5>PE Ratio</h5>
+                  <p class="metric-value">22.5</p>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="financial-metrics text-center">
+                  <h5>Dividend Yield</h5>
+                  <p class="metric-value metric-negative">1.5%</p>
+              </div>
+          </div>
+      </div>
+
+      <!-- Financial Data Table -->
+      <div class="card mb-4">
+          <div class="card-body">
+              <h5 class="card-title">Financial Data</h5>
+              {% if table_data %}
+              <div class="table-responsive">
+                  <table class="table table-striped table-bordered">
+                      <thead class="thead-dark">
+                          <tr>
+                              <th scope="col"></th>
+                              {% for year in unique_years %}
+                              <th scope="col">{{ year }}</th>
+                              {% endfor %}
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for metric, data in table_data.items %}
+                          <tr>
+                              <td>{{ metric }}</td>
+                              {% for year, v in data.items %}
+                              <td class="{{ v.class }}">{{ v.value }}</td>
+                              {% endfor %}
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+              {% else %}
+              <p>No financial data available for this company.</p>
+              {% endif %}
+          </div>
+      </div>
+
+      <!-- Graph Section -->
+      <div class="row">
+          {% for graph in graphs %}
+          <div class="col-md-6 mb-4">
+              <div class="graph-container">
+                  <h5>{{ header_graph }}</h5>
+                  <div>{{ graph|safe }}</div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+      <p>&copy; 2025 Moulin Stocks. All rights reserved.</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    function fetchSearchResults(query) {
+      const preview = document.getElementById('search-preview');
+  
+      if (query.length < 2) { // Only show dropdown for 2+ characters
+        preview.style.display = 'none';
+        return;
+      }
+  
+      fetch('/search-preview/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify({ query: query })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.results && data.results.length > 0) {
+          preview.style.display = 'block';
+          console.log(data.results)
+          preview.innerHTML = data.results
+            .map(item => `<li class="search-preview-list" onclick="selectResult('${item.ticker }')">
+                <div>
+                  <div>
+                    <div class="search-prewiew-name">${item.name} </div>
+                    <div class="search-preview-ticker">${item.ticker}</div>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    <span>NASDAQ</span>
+                  </div>
+                </div>
+              </li>`)
+            .join('');
+        } else {
+          preview.style.display = 'none';
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching search results:', error);
+        preview.style.display = 'none';
+      });
+    }
+  
+    function selectResult(value) {
+      const searchField = document.getElementById('search');
+      searchField.value = value; // Set the selected value in the input field
+      document.getElementById('search-preview').style.display = 'none'; // Hide the dropdown
+    }
+  </script>
+  
 </body>
 </html>

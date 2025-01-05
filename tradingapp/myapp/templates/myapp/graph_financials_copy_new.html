@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Plotly Graph</title>
+    <style>
+        /* Custom Styles */
+        table {
+            font-size: 14px; /* Adjust text size */
+        }
+        thead th {
+            background-color: #f4f4f4; /* Light grey background for headers */
+            font-weight: bold;
+        }
+        th, td {
+            text-align: center; /* Center align by default */
+        }
+        td:first-child, th:first-child {
+            text-align: left; /* Left-align the first column */
+            font-weight: bold; /* Emphasize the first column */
+        }
+        tbody tr:nth-child(even) {
+            background-color: #fafafa; /* Alternating row colors */
+        }
+        tbody tr:hover {
+            background-color: #f1f1f1; /* Highlight row on hover */
+        }
+
+        .valuation-red {
+            background-color: #ffcccc; /* light red */
+        }
+        .valuation-medium {
+            background-color: #ffeb99; /* light yellow */
+        }
+        .valuation-green {
+            background-color: #c6efce; /* light green */
+        }
+        .valuation-very_good{
+
+            background-color: #c6efce; /* light green */
+        }
+    </style>
+</head>
+<body>
+    <h1>Select an Option</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- This renders the form fields as HTML <p> elements -->
+        <button type="submit">Submit</button>
+    </form>
+    <h1>Financial Data for {{ company_name }}</h1>
+    
+    {% if table_data %}
+    <div class="container my-4">
+        <h2 class="text-center">Financial Statement Table</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    {% for year in unique_years %}
+                    <th scope="col">{{ year }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for metric, data in table_data.items %}
+                <tr>
+                    <td scope="row">{{ metric }}</td>
+                    {% for year, v in data.items %}
+                    <td scope="row" class="{{ v.class }}">{{ v.value }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p>No financial data available for this company.</p>
+    {% endif %}
+    {% for graph in graphs %}
+    <h1>{{header_graph}}</h1>
+    <!-- Render the Plotly graph here -->
+        <div>
+            {{ graph|safe }}
+        </div>
+    {% endfor %}
+</body>
+</html>

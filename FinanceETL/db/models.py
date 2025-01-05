@@ -7,7 +7,7 @@ from sqlalchemy import (
     DECIMAL,
 )
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import TINYINT
 
 

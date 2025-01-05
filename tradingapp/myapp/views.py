@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 import pickle
 import pandas as pd
 #from .indicators import WarrenBuffets
-from .forms import MyForm
+#from .forms import MyForm
 from .models.company_model import Company
 from .models.financialdata_model import FinancialData
 from .models.metric_model import Metric
@@ -11,7 +11,11 @@ from django_tables2 import RequestConfig
 from .forms import SignupForm
 from django.contrib.auth import login
 from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
+import json
 
 
 def plotly_graph(request):
@@ -25,15 +29,23 @@ def plotly_graph(request):
     print(choices)
     selected_option=None
     if request.method == 'POST':
-         form = MyForm(request.POST, choices=choices)
-         if form.is_valid():
-             selected_option = form.cleaned_data['dropdown']
-             print(selected_option)
-             # Handle the form data as needed
-    else:
-         form = MyForm(choices=choices)
+        print("-------")
+        print("request-------------")
+        print(request)
+        print(request.POST)
+        selected_option = request.POST.get("search")
+        
+        #form = MyForm(request.POST, choices=choices)
+        #if form.is_valid():
+         #   selected_option = form.cleaned_data['dropdown']
+          #  print(selected_option)
+            # Handle the form data as needed
+    #else:
+     #   form = MyForm(choices=choices)
     if selected_option:
         ticker=selected_option
+    print("TICKER_____________")
+    print(ticker)
     df =fetch_data_from_db(ticker)
     print(df)
     table_data, unique_years = prepare_table_data(ticker)
@@ -52,7 +64,7 @@ def plotly_graph(request):
     return render(request, 'myapp/graph_financials.html', {'table_data': table_data, 
                                                            'unique_years': unique_years,
                                                            'company_name': ticker, 
-                                                           'form': form,
+                                                           #'form': form,
                                                            'graphs': graphs,})
 
 def fetch_graph_data(company_ticker, metric):
@@ -212,3 +224,25 @@ def signup(request):
     else:
         form = SignupForm()
     return render(request, 'myapp/signup.html', {'form': form})
+
+
+
+
+@csrf_exempt
+def search_preview(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        query = data.get('query', '')
+
+        if query:
+            print("search")
+            print(query)
+            # Fetch matching results (adjust filtering logic to fit your model)
+            results = Company.objects.filter(Q(Ticker__icontains=query) | Q(Name__icontains=query))[:10]
+            print(results)
+            response_data = {
+                'results': [{'id': company.CompanyID, 'name': company.Name, 'ticker': company.Ticker} for company in results]
+            }
+            return JsonResponse(response_data)
+
+    return JsonResponse({'results': []})

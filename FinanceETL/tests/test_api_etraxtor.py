@@ -12,4 +12,6 @@ class TestAPIExctractor:
         api = APIExtractor(base_url=base_url, api_key=api_key)
         print("API_KEY")
         print(api_key)
-        symbols = ["DQ", "NOVA", "ENPH", "JKS", "RUN", "CSIQ", "NVDA"] companies = api.fetch_company_income_statement(symbols=symbols) print(companies)
+        symbols = ["DQ", "NOVA", "ENPH", "JKS", "RUN", "CSIQ", "NVDA"]
+        companies = api.fetch_company_income_statement(symbols=symbols)
+        print(companies)
