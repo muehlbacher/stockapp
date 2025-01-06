@@ -1,0 +1,39 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <a class="navbar-brand" href="#">Moulin Stocks</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+    </ul>
+  <!-- Search Bar in Navbar -->
+  <form class="form-inline my-2 my-lg-0 position-relative" method="post" autocomplete="off">
+      {% csrf_token %}
+      <div class="input-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          id="search" 
+          name="search" 
+          placeholder="Search for a company" 
+          aria-label="Search"
+          oninput="fetchSearchResults(this.value)"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </div>
+      <ul class="list-group">
+      <div id="search-preview" class="dropdown-menu w-100"></div>
+      </ul>
+    </form>
+  </div>
+</nav>
+

@@ -1,0 +1,13 @@
+<!-- Graph Section -->
+<div class="row">
+    {% for graph in graphs %}
+    <div class="col-md-6 mb-4">
+        <div class="graph-container">
+            <h5>{{ header_graph }}</h5>
+            <div>{{ graph|safe }}</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+

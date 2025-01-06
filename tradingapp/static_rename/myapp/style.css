@@ -1,0 +1,108 @@
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+      }
+      .navbar {
+    background-color: #1f1f1f;
+    padding: 0.8rem 1rem;
+  }
+  .navbar-brand {
+    font-weight: bold;
+    color: #ffffff !important;
+  }
+  .navbar-brand:hover {
+    color: #e0e0e0 !important;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    color: #e0e0e0;
+  }
+  .navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  .form-inline .input-group .form-control {
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+  }
+  .form-inline .input-group .form-control::placeholder {
+    color: #aaaaaa;
+  }
+  .form-inline .input-group .btn {
+    background-color: #0d6efd;
+    color: #ffffff;
+    border: none;
+  }
+  .form-inline .input-group .btn:hover {
+    background-color: #0056b3;
+  }
+
+      .section-header {
+          margin: 20px 0;
+          font-weight: bold;
+          color: #333333;
+      }
+      .financial-metrics {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .financial-metrics h5 {
+          font-weight: bold;
+      }
+      .metric-value {
+          font-size: 1.2rem;
+          font-weight: bold;
+      }
+      .metric-positive {
+          color: #28a745;
+      }
+      .metric-negative {
+          color: #dc3545;
+      }
+      .graph-container {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      footer {
+          background-color: #1b1f23;
+          color: #ffffff;
+          padding: 10px 0;
+          text-align: center;
+      }
+      #search-preview {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    background-color: #333333;
+    color: #ffffff;
+    position: absolute;
+    top: 100%; /* Position below the input */
+    z-index: 1050; /* Ensure it's above other elements */
+    display: none; /* Hidden by default */
+  }
+  #search-preview a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 8px 12px;
+    display: block;
+  }
+  #search-preview a:hover {
+    background-color: #555555;
+  }
+
+  .search-preview-name {
+    font-size: 1rem;
+  }
+  .search-preview-ticker {
+    font-size: 0.8rem;
+    color: grey;
+  }
+  .search-preview-list {
+    display: flex;
+    margin: 0 12px;
+    padding: 8px 2px;
+    justify-content: space-between;
+  }
