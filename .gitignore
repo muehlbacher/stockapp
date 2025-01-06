@@ -5,4 +5,4 @@ custom-config
 .mypy_cache
 
 FinanceETL/.env
-
+tradingapp/db.sqlite3
