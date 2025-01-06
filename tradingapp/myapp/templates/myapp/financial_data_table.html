@@ -16,9 +16,9 @@
                 <tbody>
                     {% for metric, data in table_data.items %}
                     <tr>
-                        <td>{{ metric }}</td>
+                        <td class="table-metric">{{ metric }}</td>
                         {% for year, v in data.items %}
-                        <td class="{{ v.class }}">{{ v.value }}</td>
+                        <td class="{{ v.class }} table-value">{{ v.value }}</td>
                         {% endfor %}
                     </tr>
                     {% endfor %}
