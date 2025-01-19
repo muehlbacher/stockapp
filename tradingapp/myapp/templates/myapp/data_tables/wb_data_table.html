@@ -1,0 +1,34 @@
+<!-- Financial Data Table -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Warren Buffets Indicators</h5>
+        {% if wb_table_data %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        {% for year in unique_years %}
+                        <th scope="col">{{ year }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for metric, data in wb_table_data.items %}
+                    <tr>
+                        <td class="table-metric">{{ metric }}</td>
+                        {% for year, v in data.items %}
+                        <td class="{{ v.class }} table-value">{{ v.value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>No financial data available for this company.</p>
+        {% endif %}
+    </div>
+</div>
+
+

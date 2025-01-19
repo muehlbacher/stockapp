@@ -49,10 +49,10 @@ def plotly_graph(request):
     print(ticker)
     df = fetch_data_from_db(ticker)
     print(df)
-    table_data, unique_years = prepare_table_data(ticker)
+    financial_table_data, unique_years = prepare_table_data(ticker)
 
-    if isinstance(table_data, str):  # Check if it's an error message
-        return render(request, "error.html", {"error_message": table_data})
+    if isinstance(financial_table_data, str):  # Check if it's an error message
+        return render(request, "error.html", {"error_message": financial_table_data})
 
     metrics = fetch_metrics_wb()
     graphs = []
@@ -63,11 +63,17 @@ def plotly_graph(request):
         )
         graphs.append(fig.to_html(full_html=False))
 
+    wb_table_data, unique_years_wb =  prepare_wb_table_data(ticker=ticker)
+    
+
+    unique_years.sort()
+
     return render(
         request,
         "myapp/dashboard.html",
         {
-            "table_data": table_data,
+            "financial_table_data": financial_table_data,
+            "wb_table_data": wb_table_data,
             "unique_years": unique_years,
             "company_name": ticker,
             #'form': form,
@@ -107,6 +113,68 @@ def fetch_companies_name_and_ticker():
     print(companies)
     print("---" * 20)
     return companies
+
+
+def prepare_wb_table_data(ticker):
+    try:
+        company = Company.objects.get(Ticker=ticker)
+        metrics = ["sgaRatio", "randdRatio", "deprecationRatio", "interestExpenseRatio", "netEarningsRatio"]
+        results = FinancialData.objects.select_related('MetricID', 'CompanyID', 'TimePeriodID') \
+                    .filter(MetricID__MetricName__in=metrics) \
+                    .filter(CompanyID__Ticker=ticker) \
+                    .values('MetricID__MetricName', 'CompanyID__Name', 'TimePeriodID__Year', 'Value', 'Valuation')
+
+        data = []
+        print(results)
+        for entry in results:
+            data.append(
+                {
+                    "Year": entry["TimePeriodID__Year"],
+                    "Metric": entry["MetricID__MetricName"],
+                    "Value": entry["Value"],
+                    "Valuation": entry["Valuation"],
+                }
+            )
+                # Create a DataFrame
+        df = pd.DataFrame(data)
+        print("Dataframe------")
+        print(df)
+
+        table_valuation = {}
+        #grouped = df.groupby("Metric")
+        sorted_df = df.sort_values(by=["Metric", "Year"], ascending=True)
+        grouped = sorted_df.groupby("Metric")
+ 
+        # data_valuation = []
+        print(grouped)
+        metric_data = {}
+        for metric, group in grouped:
+            metric_data[metric] = {}
+            for _, row in group.iterrows():
+                year = str(row["Year"])
+                metric_data[metric][year] = {
+                    "value": row["Value"],
+                    "class": f"valuation-{row['Valuation']}",  # e.g., "valuation-red"
+                }
+            # data_valuation.append(metric_data)
+
+        # print(data_valuation)
+        print(metric_data)
+        unique_years = df["Year"].unique()
+
+        return metric_data, unique_years
+
+    except Company.DoesNotExist:
+        print("error")
+        print(e)
+        return f"Company with name '{ticker}' does not exist."
+    except Exception as e:
+        print("error")
+        print(e)
+        return f"An error occurred: {str(e)}"
+    except Exception as e:
+        print("error")
+        print (e)
 
 
 def prepare_table_data(ticker):
