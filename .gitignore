@@ -8,3 +8,4 @@ FinanceETL/.env
 tradingapp/db.sqlite3
 
 tooltip.json
+info.md
