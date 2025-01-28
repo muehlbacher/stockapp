@@ -36,13 +36,6 @@ def plotly_graph(request):
         print(request.POST)
         selected_option = request.POST.get("search")
 
-        # form = MyForm(request.POST, choices=choices)
-        # if form.is_valid():
-        #   selected_option = form.cleaned_data['dropdown']
-        #  print(selected_option)
-        # Handle the form data as needed
-    # else:
-    #   form = MyForm(choices=choices)
     if selected_option:
         ticker = selected_option
     print("TICKER_____________")
@@ -181,7 +174,7 @@ def prepare_wb_table_data(ticker):
 
         return metric_data, unique_years
 
-    except Company.DoesNotExist:
+    except Company.DoesNotExist as e:
         print("error")
         print(e)
         return f"Company with name '{ticker}' does not exist."
@@ -189,9 +182,6 @@ def prepare_wb_table_data(ticker):
         print("error")
         print(e)
         return f"An error occurred: {str(e)}"
-    except Exception as e:
-        print("error")
-        print(e)
 
 
 def prepare_table_data(ticker):

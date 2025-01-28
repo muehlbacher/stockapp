@@ -15,4 +15,4 @@ class Company(models.Model):
         db_table = "Company"  # Explicitly set the table name
 
     def __str__(self):
-        return self.Name
+        return str(self.Name)
