@@ -13,4 +13,3 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("search-preview/", views.search_preview, name="search_preview"),
 ]
-

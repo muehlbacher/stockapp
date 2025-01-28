@@ -63,8 +63,7 @@ def plotly_graph(request):
         )
         graphs.append(fig.to_html(full_html=False))
 
-    wb_table_data, unique_years_wb =  prepare_wb_table_data(ticker=ticker)
-    
+    wb_table_data, unique_years_wb = prepare_wb_table_data(ticker=ticker)
 
     unique_years.sort()
 
@@ -91,7 +90,9 @@ def fetch_graph_data(company_ticker, metric):
     # Fetch the financial data for this company, where the metric is 'Revenue'
     financial_data = FinancialData.objects.filter(
         CompanyID=company, MetricID=revenue_metric
-    ).select_related("TimePeriodID")  # Ensure to fetch the related TimePeriod
+    ).select_related(
+        "TimePeriodID"
+    )  # Ensure to fetch the related TimePeriod
 
     # Prepare the data into a format suitable for Plotly (DataFrame)
     data = financial_data.values(
@@ -118,11 +119,27 @@ def fetch_companies_name_and_ticker():
 def prepare_wb_table_data(ticker):
     try:
         company = Company.objects.get(Ticker=ticker)
-        metrics = ["sgaRatio", "randdRatio", "deprecationRatio", "interestExpenseRatio", "netEarningsRatio"]
-        results = FinancialData.objects.select_related('MetricID', 'CompanyID', 'TimePeriodID') \
-                    .filter(MetricID__MetricName__in=metrics) \
-                    .filter(CompanyID__Ticker=ticker) \
-                    .values('MetricID__MetricName', 'CompanyID__Name', 'TimePeriodID__Year', 'Value', 'Valuation')
+        metrics = [
+            "sgaRatio",
+            "randdRatio",
+            "deprecationRatio",
+            "interestExpenseRatio",
+            "netEarningsRatio",
+        ]
+        results = (
+            FinancialData.objects.select_related(
+                "MetricID", "CompanyID", "TimePeriodID"
+            )
+            .filter(MetricID__MetricName__in=metrics)
+            .filter(CompanyID__Ticker=ticker)
+            .values(
+                "MetricID__MetricName",
+                "CompanyID__Name",
+                "TimePeriodID__Year",
+                "Value",
+                "Valuation",
+            )
+        )
 
         data = []
         print(results)
@@ -135,16 +152,16 @@ def prepare_wb_table_data(ticker):
                     "Valuation": entry["Valuation"],
                 }
             )
-                # Create a DataFrame
+            # Create a DataFrame
         df = pd.DataFrame(data)
         print("Dataframe------")
         print(df)
 
         table_valuation = {}
-        #grouped = df.groupby("Metric")
+        # grouped = df.groupby("Metric")
         sorted_df = df.sort_values(by=["Metric", "Year"], ascending=True)
         grouped = sorted_df.groupby("Metric")
- 
+
         # data_valuation = []
         print(grouped)
         metric_data = {}
@@ -174,7 +191,7 @@ def prepare_wb_table_data(ticker):
         return f"An error occurred: {str(e)}"
     except Exception as e:
         print("error")
-        print (e)
+        print(e)
 
 
 def prepare_table_data(ticker):
