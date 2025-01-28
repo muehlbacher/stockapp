@@ -6,3 +6,5 @@ custom-config
 
 FinanceETL/.env
 tradingapp/db.sqlite3
+
+tooltip.json
