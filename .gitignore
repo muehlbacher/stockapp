@@ -3,6 +3,8 @@
 .mysql-data
 custom-config
 .mypy_cache
+**/__pycache__/
+.vscode
 
 FinanceETL/.env
 tradingapp/db.sqlite3
