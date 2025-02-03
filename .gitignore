@@ -5,6 +5,7 @@ custom-config
 .mypy_cache
 # Ignore Python cache directories
 __pycache__/
+**/__pycache__/
 .pytest_cache
 *.pyc
 *.pyo
