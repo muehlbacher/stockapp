@@ -1,7 +1,6 @@
 import plotly.express as px
-import pandas as pd
-from .financial_service import fetch_graph_data
-from .financial_service import fetch_metrics_wb
+from myapp.services.financial_service import fetch_graph_data
+from myapp.services.financial_service import fetch_metrics_wb
 
 
 def generate_plot_data(ticker):

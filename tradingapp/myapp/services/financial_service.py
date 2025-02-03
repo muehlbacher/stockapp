@@ -1,7 +1,8 @@
 import pandas as pd
-from ..models.company_model import Company
-from ..models.financialdata_model import FinancialData
-from ..models.metric_model import Metric
+
+from myapp.models.company_model import Company
+from myapp.models.financialdata_model import FinancialData
+from myapp.models.metric_model import Metric
 
 
 def fetch_graph_data(company_ticker, metric):

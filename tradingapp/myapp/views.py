@@ -1,30 +1,28 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
-from .forms import SignupForm
-from .services.plot_service import generate_plot_data
-from .services.company_service import fetch_companies_name_and_ticker, search_companies
-from .services.financial_service import (
-    fetch_data_from_db,
+from myapp.forms import SignupForm
+from myapp.services.plot_service import generate_plot_data
+from myapp.services.company_service import (
+    search_companies,
+)
+from myapp.services.financial_service import (
     prepare_table_data,
     prepare_wb_table_data,
-    fetch_metrics_wb,
 )
 
 
 def plotly_graph(request):
     ticker = "CSIQ"
-    companies = fetch_companies_name_and_ticker()
-    choices = [(company["Ticker"], company["Name"]) for company in companies]
 
     selected_option = request.POST.get("search") if request.method == "POST" else None
     if selected_option:
         ticker = selected_option
 
-    df = fetch_data_from_db(ticker)
     financial_table_data, unique_years = prepare_table_data(ticker)
 
     if isinstance(financial_table_data, str):  # If it's an error message

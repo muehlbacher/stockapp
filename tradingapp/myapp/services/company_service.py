@@ -1,5 +1,5 @@
-from ..models.company_model import Company
 from django.db.models import Q
+from myapp.models.company_model import Company
 
 
 def fetch_companies_name_and_ticker():
