@@ -4,7 +4,8 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path("dash/", views.dashboard, name="dashboard"),
+    path("dash/<str:search_term>/", views.dashboard, name="dashboard_with_search"),
+    path("dash/", views.dashboard_search, name="dashboard_search"),
     path(
         "login/",
         auth_views.LoginView.as_view(template_name="myapp/login.html"),

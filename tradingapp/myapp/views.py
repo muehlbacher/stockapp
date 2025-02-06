@@ -18,13 +18,13 @@ from myapp.services.financial_service import (
 )
 
 
-def dashboard(request):
-    search_term = request.GET.get("search_term", "")
-    ticker = search_term.upper()
+def dashboard(request, search_term=None):
+    # search_term = request.GET.get("search_term", "")
+    if search_term is None:
+        ticker = "NVDA"
 
-    selected_option = request.POST.get("search") if request.method == "POST" else None
-    if selected_option:
-        ticker = selected_option
+    else:
+        ticker = search_term.upper()
     try:
         financial_table_data, unique_years = prepare_table_data_selected_metrics(ticker)
     except CompanyDoesNotExistError:
@@ -51,8 +51,21 @@ def dashboard(request):
             "unique_years": unique_years,
             "company_name": ticker,
             "graphs": graphs,
+            "search_term": search_term,
         },
     )
+
+
+def dashboard_search(request):
+    if request.method == "POST":
+        # Get the search term from the POST request
+        search_term = request.POST.get("search")
+
+        # Redirect to the dashboard with the search term in the URL
+        return redirect(f"/dash/{search_term}/")
+
+    # If the request is not POST, just show the dashboard without search term
+    return render(request, "myapp/dashboard.html", {"search_term": ""})
 
 
 def home(request):

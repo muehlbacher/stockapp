@@ -14,7 +14,7 @@
       </li>
     </ul>
   <!-- Search Bar in Navbar -->
-  <form class="form-inline my-2 my-lg-0 position-relative" method="post" autocomplete="off">
+  <form class="form-inline my-2 my-lg-0 position-relative" method="post" autocomplete="off" action="{% url 'dashboard_search' %}">
       {% csrf_token %}
       <div class="input-group">
         <input 
