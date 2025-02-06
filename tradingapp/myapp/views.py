@@ -11,11 +11,12 @@ from myapp.services.company_service import (
     search_companies,
 )
 from myapp.services.financial_service import (
-    prepare_table_data,
     prepare_wb_table_data,
     prepare_table_data_selected_metrics,
     CompanyDoesNotExistError,
 )
+
+from myapp.services.info_service import fetch_tooltips
 
 
 def dashboard(request, search_term=None):
@@ -41,12 +42,8 @@ def dashboard(request, search_term=None):
     graphs = generate_plot_data(ticker)
     wb_table_data, unique_years_wb = prepare_wb_table_data(ticker)
 
-    metric_tooltip = {
-        "deprecationRatio": "This is the depraction ratio tooltip!",
-        "revenue": "this is the revenue tooltip for the revenue stuff .. ",
-    }
-    print("wb_data--------")
-    print(wb_table_data)
+    # metric for tooltips
+    metric_tooltip = fetch_tooltips()
 
     return render(
         request,
