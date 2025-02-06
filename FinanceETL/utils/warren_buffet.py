@@ -56,7 +56,7 @@ class WarrenBuffets:
         return symbol
 
     def randdRatio_valuation(self, symbol: pd.DataFrame):
-        s = symbol["sgaRatio"]
+        s = symbol["randdRatio"]
 
         def evaluate_valuation(s):
             if s <= 0.3:
@@ -90,7 +90,7 @@ class WarrenBuffets:
         return symbol
 
     def deprecationRatio_valuation(self, symbol: pd.DataFrame):
-        s = symbol["sgaRatio"]
+        s = symbol["deprecationRatio"]
 
         def evaluate_valuation(s):
             if s <= 0.1:
@@ -133,6 +133,25 @@ class WarrenBuffets:
         symbol["netEarningsRatio"] = symbol["netIncome"] / symbol["revenue"]
         return symbol
 
+    def netEarnningsRatio_valuation(self, symbol: pd.DataFrame):
+        s = symbol["netEarningsRatio"]
+
+        def evaluate_valuation(s):
+            if s >= 0.3:
+                return Valuation.VERY_GOOD.value
+            elif s >= 0.2:
+                return Valuation.GOOD.value
+            elif s >= 0.10:
+                return Valuation.BAD.value
+            else:
+                return Valuation.VERY_BAD.value
+
+        symbol["netEarningsRatio_valuation"] = symbol["netEarningsRatio"].apply(
+            evaluate_valuation
+        )
+
+        return symbol
+
     def applyAll(self, symbol: pd.DataFrame):
         symbol = self.sgaRatio(symbol)
         symbol = self.sgaRatio_valuation(symbol)
@@ -142,4 +161,5 @@ class WarrenBuffets:
         symbol = self.deprecationRatio_valuation(symbol)
         symbol = self.interestExpenseRatio(symbol)
         symbol = self.netEarningsRatio(symbol)
+        symbol = self.netEarnningsRatio_valuation(symbol)
         return symbol

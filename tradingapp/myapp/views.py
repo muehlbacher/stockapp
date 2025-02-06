@@ -18,8 +18,9 @@ from myapp.services.financial_service import (
 )
 
 
-def plotly_graph(request):
-    ticker = "CSIQ"
+def dashboard(request):
+    search_term = request.GET.get("search_term", "")
+    ticker = search_term.upper()
 
     selected_option = request.POST.get("search") if request.method == "POST" else None
     if selected_option:

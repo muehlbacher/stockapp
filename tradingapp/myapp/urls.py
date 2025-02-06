@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path("plotly/", views.plotly_graph, name="plotly_graph"),
+    path("dash/", views.dashboard, name="dashboard"),
     path(
         "login/",
         auth_views.LoginView.as_view(template_name="myapp/login.html"),
