@@ -13,6 +13,8 @@ from myapp.services.company_service import (
 from myapp.services.financial_service import (
     prepare_table_data,
     prepare_wb_table_data,
+    prepare_table_data_selected_metrics,
+    CompanyDoesNotExistError,
 )
 
 
@@ -22,9 +24,16 @@ def plotly_graph(request):
     selected_option = request.POST.get("search") if request.method == "POST" else None
     if selected_option:
         ticker = selected_option
-
-    financial_table_data, unique_years = prepare_table_data(ticker)
-
+    try:
+        financial_table_data, unique_years = prepare_table_data_selected_metrics(ticker)
+    except CompanyDoesNotExistError:
+        return render(
+            request,
+            "myapp/dashboard.html",
+            {
+                "financial_table_data": None,
+            },
+        )
     if isinstance(financial_table_data, str):  # If it's an error message
         return render(request, "error.html", {"error_message": financial_table_data})
 

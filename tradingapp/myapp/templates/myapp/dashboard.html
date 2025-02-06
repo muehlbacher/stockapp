@@ -12,7 +12,7 @@
 
 
   {% include 'myapp/navbar.html' %}
-
+  {% if financial_table_data %}
   <!-- Main Content -->
   <div class="container my-5">
       <!-- Header -->
@@ -22,13 +22,17 @@
 
 
   {% include 'myapp/financial_metrics.html' %}
+  {% include 'myapp/data_tables/new_data_table.html' %}
   {% include 'myapp/data_tables/income_statement_table.html' %}
   {% include 'myapp/data_tables/financial_data_table.html' %}
   {% include 'myapp/data_tables/wb_data_table.html' %}
   {% include 'myapp/graph_section.html' %}
 
   </div>
-
+  {% else %}
+  <p>No financial data available for this company.</p>
+  <p>Please check your spelling. Try our suggested matches or see results in other tabs.</p>
+  {% endif %}
   
   {% include 'myapp/footer.html' %}
 

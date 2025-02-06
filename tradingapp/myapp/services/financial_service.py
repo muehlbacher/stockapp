@@ -5,6 +5,10 @@ from myapp.models.financialdata_model import FinancialData
 from myapp.models.metric_model import Metric
 
 
+class CompanyDoesNotExistError(Exception):
+    pass
+
+
 def fetch_graph_data(company_ticker, metric):
     company = Company.objects.get(Ticker=company_ticker)
     revenue_metric = Metric.objects.get(MetricName=metric)
@@ -19,6 +23,62 @@ def fetch_graph_data(company_ticker, metric):
     )
 
     return df
+
+
+def prepare_table_data_selected_metrics(ticker, metrics=None):
+    if not metrics:
+        metrics = [
+            "revenue",
+            "costOfRevenue",
+            "grossProfit",
+            "operatingExpenses",
+            "sellingGeneralAndAdministrativeExpenses",
+            "researchAndDevelopmentExpenses",
+            "depreciationAndAmortization",
+        ]
+
+    try:
+        results = (
+            FinancialData.objects.select_related("MetricID", "TimePeriodID")
+            .filter(CompanyID__Ticker=ticker, MetricID__MetricName__in=metrics)
+            .values("MetricID__MetricName", "TimePeriodID__Year", "Value", "Valuation")
+        )
+        if not results:
+            raise Company.DoesNotExist()
+        # Convert query results into a DataFrame
+        df = pd.DataFrame.from_records(results)
+        if df.empty:
+            return {}, []  # Return empty data if no records found
+
+        # Sort DataFrame by Year (Descending) and then by Metric
+        df.sort_values(
+            by=["TimePeriodID__Year", "MetricID__MetricName"],
+            ascending=[False, True],
+            inplace=True,
+        )
+
+        # Transform data into a nested dictionary format
+        metric_data = {
+            metric: {
+                str(row["TimePeriodID__Year"]): {
+                    "value": f"{row['Value']:,.0f}",
+                    "class": f"valuation-{row['Valuation']}",
+                }
+                for _, row in group.iterrows()
+            }
+            for metric, group in df.groupby("MetricID__MetricName")
+        }
+
+        unique_years = sorted(df["TimePeriodID__Year"].unique(), reverse=True)
+        print(unique_years)
+        return metric_data, unique_years
+
+    except Company.DoesNotExist as e:
+        raise CompanyDoesNotExistError(
+            f"Company with ticker '{ticker}' does not exist."
+        ) from e
+    except Exception as e:
+        return f"An error occurred: {str(e)}", []
 
 
 def prepare_table_data(ticker):

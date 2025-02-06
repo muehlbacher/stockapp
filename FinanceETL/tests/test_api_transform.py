@@ -19,7 +19,7 @@ class TestAPITransform:
         print(api_key)
         # symbols = ["CSIQ", "NVDA"]
         symbols = ["INTC"]
-        symbols.append("AAPL")
+        symbols.extend(["AAPL", "NVDA", "AMD", "NVO", "DIS", "DASH"])
         companies_raw = api.fetch_company_income_statement(symbols=symbols)
         companies = DataTransformer().transform_company(companies_raw)
         print(companies)

@@ -1,3 +1,4 @@
+import pandas as pd
 import plotly.express as px
 from myapp.services.financial_service import fetch_graph_data
 from myapp.services.financial_service import fetch_metrics_wb
