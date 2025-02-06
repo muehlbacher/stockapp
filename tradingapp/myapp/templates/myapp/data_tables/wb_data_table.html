@@ -15,7 +15,9 @@
                 <tbody>
                     {% for metric, data in wb_table_data.items %}
                     <tr>
-                        <td class="table-metric">{{ metric }}</td>
+                        <td class="table-metric">{{ metric }}
+
+                        </td>
                         {% for year, v in data.items %}
                         <td class="{{ v.class }} table-value">{{ v.value }}</td>
                         {% endfor %}
@@ -26,5 +28,3 @@
         </div>
     </div>
 </div>
-
-

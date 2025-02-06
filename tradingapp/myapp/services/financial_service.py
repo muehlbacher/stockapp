@@ -63,6 +63,7 @@ def prepare_table_data_selected_metrics(ticker, metrics=None):
                 str(row["TimePeriodID__Year"]): {
                     "value": f"{row['Value']:,.0f}",
                     "class": f"valuation-{row['Valuation']}",
+                    "tooltip": "This is the tooltip message from the financial service!",
                 }
                 for _, row in group.iterrows()
             }

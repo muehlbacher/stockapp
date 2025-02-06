@@ -41,6 +41,13 @@ def dashboard(request, search_term=None):
     graphs = generate_plot_data(ticker)
     wb_table_data, unique_years_wb = prepare_wb_table_data(ticker)
 
+    metric_tooltip = {
+        "deprecationRatio": "This is the depraction ratio tooltip!",
+        "revenue": "this is the revenue tooltip for the revenue stuff .. ",
+    }
+    print("wb_data--------")
+    print(wb_table_data)
+
     return render(
         request,
         "myapp/dashboard.html",
@@ -52,6 +59,7 @@ def dashboard(request, search_term=None):
             "company_name": ticker,
             "graphs": graphs,
             "search_term": search_term,
+            "metric_tooltip": metric_tooltip,
         },
     )
 
