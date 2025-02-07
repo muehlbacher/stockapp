@@ -43,6 +43,7 @@ def dashboard(request, search_term=None):
     wb_table_data, unique_years_wb = prepare_wb_table_data(ticker)
 
     # metric for tooltips
+    # test for tooltips
     metric_tooltip = fetch_tooltips()
 
     return render(
