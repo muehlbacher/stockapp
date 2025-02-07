@@ -132,8 +132,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Redirect after login
-LOGIN_REDIRECT_URL = "/plotly"
+LOGIN_REDIRECT_URL = "/dash"
 
 # Optionally, specify the URL for login page
 LOGIN_URL = "/login/"
-

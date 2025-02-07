@@ -1,11 +1,10 @@
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    ForeignKey,
-    Date,
-    DECIMAL,
-)
+"""
+    Create script for new tables in the database at the bottom
+    run python models.py to create new tables
+    .create_all() - creates new tables if they are not already existing.
+"""
+
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, DECIMAL, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import TINYINT
@@ -72,3 +71,26 @@ class FinancialData(Base):
     statement_type = relationship("StatementType", backref="financial_data")
     metric = relationship("Metric", backref="financial_data")
     time_period = relationship("TimePeriod", backref="financial_data")
+
+
+class MetricTooltip(Base):
+    __tablename__ = "MetricTooltip"
+    TooltipID = Column(Integer, primary_key=True, autoincrement=True)
+    MetricID = Column(Integer, ForeignKey("Metric.MetricID"), nullable=False)
+    Tooltip = Column(Text, nullable=False)
+
+
+if __name__ == "__main__":
+
+    import os
+    from dotenv import load_dotenv
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    load_dotenv()
+    DATABASE_URL = os.getenv("DATABASE_URL")
+    # Create the engine and session
+    engine = create_engine(DATABASE_URL, echo=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    Base.metadata.create_all(engine)
