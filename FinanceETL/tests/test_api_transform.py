@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 import pandas as pd
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from etl.transform import DataTransformer
-from etl.extract import APIExtractor
-from etl.load import DataLoader
+from FinanceETL.etl.transform import DataTransformer
+from FinanceETL.etl.extract import APIExtractor
+from FinanceETL.etl.load.load_data import DataLoader
 
 load_dotenv()
 

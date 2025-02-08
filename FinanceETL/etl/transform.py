@@ -1,7 +1,7 @@
 from typing import List, Dict
 import pandas as pd
 
-from utils.warren_buffet import WarrenBuffets
+from FinanceETL.utils.warren_buffet import WarrenBuffets
 
 
 class DataTransformer:

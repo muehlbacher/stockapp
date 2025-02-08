@@ -17,5 +17,13 @@ if __name__ == "__main__":
 
     loader = TooltipLoader(session)
 
-    tooltip = "The amount of money that came in the door during the period of time in question. If we manufacturing cars and we sell $120 million worht of cars in a year, we will report $120 million total revenue."
+    loader.remove_tooltip("revenue")
+    loader.remove_tooltip("GrossProfitMargin")
+    tooltip = "The amount of money that came in the door during the period of time in question. If we manufacturing cars and we sell $120 million worth of cars in a year, we will report $120 million total revenue."
     loader.load_tooltip(metric_name="revenue", tooltip=tooltip)
+
+    tooltip = "Gross Profit / Total Revenue = GPM;\n What creates a high gross profit margin is the company's durable competitive advantage, which allows it the freedom to price the products and services it sells well in excess of its cost of goods sold."
+    loader.load_tooltip(metric_name="GrossProfitMargin", tooltip=tooltip)
+
+    tooltip = "The companies hard costs. Research and Development of new products, selling and administrative costs of getting the product to market, ... "
+    loader.load_tooltip(metric_name="operatingExpenses", tooltip=tooltip)

@@ -16,8 +16,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Revenue<span data-bs-toggle="tooltip" data-bs-placement="top" title="{{ metric_tooltip.revenue }}">
-                            <span class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
+                        <td>Revenue<span data-bs-toggle="tooltip" data-metric-key="revenue"
+                            class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
                         </span></td>
                         {% for year, data in financial_table_data.revenue.items %}
                         <td class="text-end">{{ data.value }}</td>
@@ -39,7 +39,8 @@
                         <td>
                             <button class="no-underline-btn d-flex align-items-center" data-bs-toggle="collapse" data-bs-target="#operatingExpenses" aria-expanded="false" aria-controls="operatingExpenses">
                                 <span id="triangle" class="me-2 rotate collapsed" aria-hidden="true">▶</span>
-                                Operating Expenses
+                                Operating Expenses <span data-bs-toggle="tooltip" data-metric-key="operatingExpenses"
+                                class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
                             </button>
                         </td>
                         {% for year, data in financial_table_data.operatingExpenses.items %}

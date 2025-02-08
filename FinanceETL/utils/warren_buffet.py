@@ -152,6 +152,29 @@ class WarrenBuffets:
 
         return symbol
 
+    def grossProfitMargin(self, symbol: pd.DataFrame):
+        symbol["grossProfitMargin"] = symbol["grossProfit"] / symbol["revenue"]
+        return symbol
+
+    def grossProfitMargin_valuation(self, symbol: pd.DataFrame):
+        s = symbol["grossProfitMargin"]
+
+        def evaluate_valuation(s):
+            if s >= 0.6:
+                return Valuation.VERY_GOOD.value
+            elif s >= 0.4:
+                return Valuation.GOOD.value
+            elif s >= 0.20:
+                return Valuation.BAD.value
+            else:
+                return Valuation.VERY_BAD.value
+
+        symbol["grossProfitMargin_valuation"] = symbol["grossProfitMargin"].apply(
+            evaluate_valuation
+        )
+
+        return symbol
+
     def applyAll(self, symbol: pd.DataFrame):
         symbol = self.sgaRatio(symbol)
         symbol = self.sgaRatio_valuation(symbol)
@@ -162,4 +185,6 @@ class WarrenBuffets:
         symbol = self.interestExpenseRatio(symbol)
         symbol = self.netEarningsRatio(symbol)
         symbol = self.netEarnningsRatio_valuation(symbol)
+        symbol = self.grossProfitMargin(symbol)
+        symbol = self.grossProfitMargin_valuation(symbol)
         return symbol

@@ -31,7 +31,7 @@
     }
 </style>
 </head>
-<body>
+<body id="tooltip-data" data-metric-tooltips='{{ metric_tooltip|escape }}'>
 
 
   {% include 'myapp/navbar.html' %}
@@ -85,6 +85,24 @@
             new bootstrap.Tooltip(tooltipTriggerEl);
         });
     });
+    document.addEventListener("DOMContentLoaded", function () {
+    const tooltipDataElement = document.getElementById("tooltip-data");
+    console.log("Tooltip element");
+    console.log(tooltipDataElement);
+    if (!tooltipDataElement) return;
+
+    // Parse the JSON stored in the data attribute
+    const metricTooltips = JSON.parse(tooltipDataElement.getAttribute("data-metric-tooltips"));
+
+    // Apply tooltips
+    document.querySelectorAll("[data-bs-toggle='tooltip']").forEach(element => {
+        const key = element.getAttribute("data-metric-key");
+        if (key && metricTooltips[key]) {
+            element.setAttribute("title", metricTooltips[key]);
+            new bootstrap.Tooltip(element); // Initialize tooltip
+        }
+    });
+});
 </script>
 </body>
 </html>

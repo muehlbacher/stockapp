@@ -134,6 +134,7 @@ def prepare_wb_table_data(ticker):
             "deprecationRatio",
             "interestExpenseRatio",
             "netEarningsRatio",
+            "GrossProfitMargin",
         ]
 
         # Fetch financial data for the given company and metrics

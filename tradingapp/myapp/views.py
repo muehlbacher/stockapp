@@ -57,7 +57,7 @@ def dashboard(request, search_term=None):
             "company_name": ticker,
             "graphs": graphs,
             "search_term": search_term,
-            "metric_tooltip": metric_tooltip,
+            "metric_tooltip": json.dumps(metric_tooltip),
         },
     )
 

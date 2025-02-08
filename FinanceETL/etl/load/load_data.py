@@ -3,7 +3,13 @@ import pandas as pd
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
-from db.models import Company, FinancialData, Metric, TimePeriod, StatementType
+from FinanceETL.db.models import (
+    Company,
+    FinancialData,
+    Metric,
+    TimePeriod,
+    StatementType,
+)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -46,6 +52,7 @@ class DataLoader:
             "deprecationRatio",
             "interestExpenseRatio",
             "netEarningsRatio",
+            "grossProfitMargin",
         ]
 
     def load_companies(self, company_data: pd.DataFrame):

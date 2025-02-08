@@ -15,8 +15,8 @@
                 <tbody>
                     {% for metric, data in wb_table_data.items %}
                     <tr>
-                        <td class="table-metric">{{ metric }}
-
+                        <td class="table-metric">{{ metric }}<span data-bs-toggle="tooltip" data-metric-key="{{ metric }}"
+                            class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
                         </td>
                         {% for year, v in data.items %}
                         <td class="{{ v.class }} table-value">{{ v.value }}</td>
