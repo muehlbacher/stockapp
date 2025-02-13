@@ -24,13 +24,17 @@
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>Cost of Revenue</td>
+                        <td>Cost of Revenue<span data-bs-toggle="tooltip" data-metric-key="costOfRevenue"
+                            class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
+                        </span></td>
                         {% for year, data in financial_table_data.costOfRevenue.items %}
                         <td class="text-end">{{ data.value }}</td>
                         {% endfor %}
                     </tr>
                     <tr class="fw-bold">
-                        <td>Gross Profit</td>
+                        <td>Gross Profit<span data-bs-toggle="tooltip" data-metric-key="grossProfit"
+                            class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
+                        </span></td>
                         {% for year, data in financial_table_data.grossProfit.items %}
                         <td class="text-end">{{ data.value }}</td>
                         {% endfor %}
@@ -66,12 +70,6 @@
                                      <td class="text-end">{{ data.value }}</td>
                                      {% endfor %}
                                 </tr>
-                                <tr class="collapse" id="operatingExpenses">                                   
-                                    <td class="ps-5">Depreciation Ratio</td>
-                                    {% for year, data in wb_table_data.deprecationRatio.items %}
-                                    <td class="text-end {{ data.class }}">{{ data.value }}</td>
-                                    {% endfor %}
-                               </tr>
                 </tr>
                 </tbody>
             </table>

@@ -19,6 +19,9 @@ if __name__ == "__main__":
 
     loader.remove_tooltip("revenue")
     loader.remove_tooltip("GrossProfitMargin")
+    loader.remove_tooltip("operatingExpenses")
+    loader.remove_tooltip("costOfRevenue")
+    loader.remove_tooltip("GrossProfit")
     tooltip = "The amount of money that came in the door during the period of time in question. If we manufacturing cars and we sell $120 million worth of cars in a year, we will report $120 million total revenue."
     loader.load_tooltip(metric_name="revenue", tooltip=tooltip)
 
@@ -27,3 +30,9 @@ if __name__ == "__main__":
 
     tooltip = "The companies hard costs. Research and Development of new products, selling and administrative costs of getting the product to market, ... "
     loader.load_tooltip(metric_name="operatingExpenses", tooltip=tooltip)
+
+    tooltip = "costs (raw goods, labor). This number alone doesn't give us a clue about the companies durable competitive advantage. You have to look also at the Gross profit Always investigate exactly what the company is including in its calculation of its cost of sales. This gives us a good idea of how management is thinking about the business."
+    loader.load_tooltip(metric_name="costOfRevenue", tooltip=tooltip)
+
+    tooltip = "revenue - cost of revenue. Gross Profit is how much money the company made after subtracting the costs (raw goods, labor) used to make the goods. Doesn't include: sga, deprecation, interest cost."
+    loader.load_tooltip(metric_name="GrossProfit", tooltip=tooltip)
