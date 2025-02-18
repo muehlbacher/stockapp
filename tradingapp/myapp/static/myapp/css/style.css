@@ -112,11 +112,12 @@
   }
   .table-value {
     font-size: 0.7rem;
+    padding: 6px 10px !important;
   }
 
   /* Custom Tables Styles */
   table {
-      font-size: 14px; /* Adjust text size */
+      font-size: 12px; /* Adjust text size */
   }
   thead th {
       background-color: #f4f4f4; /* Light grey background for headers */
@@ -170,3 +171,7 @@
       .rotate.expanded {
           transform: rotate(90deg);
       }
+    
+    .text-end {
+      padding: 6px 10px !important;
+    }
