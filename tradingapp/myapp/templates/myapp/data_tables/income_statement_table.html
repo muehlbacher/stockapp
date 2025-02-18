@@ -64,12 +64,21 @@
                                     {% endfor %}
 
                                 </tr>
+                                
                                 <tr class="collapse" id="operatingExpenses">                                   
                                      <td class="ps-5">Depreciation</td>
                                      {% for year, data in financial_table_data.depreciationAndAmortization.items %}
                                      <td class="text-end">{{ data.value }}</td>
                                      {% endfor %}
                                 </tr>
+                </tr>
+                <tr class="fw-bold">
+                    <td>Operating Income<span data-bs-toggle="tooltip" data-metric-key="operatingIncome"
+                        class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
+                    </span></td>
+                    {% for year, data in financial_table_data.operatingIncome.items %}
+                    <td class="text-end">{{ data.value }}</td>
+                    {% endfor %}
                 </tr>
                 </tbody>
             </table>

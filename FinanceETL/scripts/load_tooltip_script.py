@@ -22,6 +22,8 @@ if __name__ == "__main__":
     loader.remove_tooltip("operatingExpenses")
     loader.remove_tooltip("costOfRevenue")
     loader.remove_tooltip("GrossProfit")
+    loader.remove_tooltip("operatingIncome")
+
     tooltip = "The amount of money that came in the door during the period of time in question. If we manufacturing cars and we sell $120 million worth of cars in a year, we will report $120 million total revenue."
     loader.load_tooltip(metric_name="revenue", tooltip=tooltip)
 
@@ -36,3 +38,6 @@ if __name__ == "__main__":
 
     tooltip = "revenue - cost of revenue. Gross Profit is how much money the company made after subtracting the costs (raw goods, labor) used to make the goods. Doesn't include: sga, deprecation, interest cost."
     loader.load_tooltip(metric_name="GrossProfit", tooltip=tooltip)
+
+    tooltip = "Gross Profit - Operating Expense"
+    loader.load_tooltip(metric_name="operatingIncome", tooltip=tooltip)
