@@ -79,7 +79,33 @@
                     {% for year, data in financial_table_data.operatingIncome.items %}
                     <td class="text-end">{{ data.value }}</td>
                     {% endfor %}
+                </tr>             
+                <tr class="fw-bold">
+                    <td>Interest Expense<span data-bs-toggle="tooltip" data-metric-key="interestExpense"
+                        class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
+                    </span></td>
+                    {% for year, data in financial_table_data.interestExpense.items %}
+                    <td class="text-end">{{ data.value }}</td>
+                    {% endfor %}
                 </tr>
+                <tr class="fw-bold">
+                    <td>Other Expenses<span data-bs-toggle="tooltip" data-metric-key="otherExpenses"
+                        class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
+                    </span></td>
+                    {% for year, data in financial_table_data.otherExpenses.items %}
+                    <td class="text-end">{{ data.value }}</td>
+                    {% endfor %}
+                </tr>
+                <tr class="fw-bold">
+                    <td>Income Before Tax<span data-bs-toggle="tooltip" data-metric-key="incomeBeforeTax"
+                        class="badge rounded-circle bg-light text-dark" style="cursor: pointer;">i</span>
+                    </span></td>
+                    {% for year, data in financial_table_data.incomeBeforeTax.items %}
+                    <td class="text-end">{{ data.value }}</td>
+                    {% endfor %}
+                </tr>
+                
+                
                 </tbody>
             </table>
         </div>

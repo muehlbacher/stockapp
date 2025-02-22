@@ -36,6 +36,9 @@ def prepare_table_data_selected_metrics(ticker, metrics=None):
             "sellingGeneralAndAdministrativeExpenses",
             "researchAndDevelopmentExpenses",
             "depreciationAndAmortization",
+            "interestExpense",
+            "otherExpenses",
+            "incomeBeforeTax",
         ]
 
     try:
